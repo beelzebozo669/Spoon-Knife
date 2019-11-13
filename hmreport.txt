@@ -1,0 +1,78 @@
+DBMS_HM.GET_RUN_REPORT('DICTIONARY_CHECK_20181113')
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Basic Run Information
+ Run Name                     : DICTIONARY_CHECK_20181113
+ Run Id                       : 721
+ Check Name                   : Dictionary Integrity Check
+ Mode                         : MANUAL
+ Status                       : COMPLETED
+ Start Time                   : 2018-11-13 12:09:52.848031 +00:00
+ End Time                     : 2018-11-13 12:10:01.702388 +00:00
+ Error Encountered            : 0
+ Source Incident Id           : 0
+ Number of Incidents Created  : 0
+
+Input Paramters for the Run
+ TABLE_NAME=ALL_CORE_TABLES
+ CHECK_MASK=ALL
+
+Run Findings And Recommendations
+ Finding
+ Finding Name  : Dictionary Inconsistency
+ Finding ID    : 722
+ Type          : FAILURE
+ Status        : OPEN
+ Priority      : CRITICAL
+ Message       : SQL dictionary health check: seg$.type# 31 on object SEG$ failed
+ Message       : Damaged rowid is AAAAAIAB7AAAA0gAAe - description: Ts# 2 File# 3 Block# 83209 is referenced
+ Finding
+ Finding Name  : Dictionary Inconsistency
+ Finding ID    : 725
+ Type          : FAILURE
+ Status        : OPEN
+ Priority      : CRITICAL
+ Message       : SQL dictionary health check: syn$.owner 95 on object SYN$ failed
+ Message       : Damaged rowid is AAAAA9AABAAAPEvABh - description: Synonym REPAYMENT_DATA_BY_COHORT is referenced
+ Finding
+ Finding Name  : Dictionary Inconsistency
+ Finding ID    : 728
+ Type          : FAILURE
+ Status        : OPEN
+ Priority      : CRITICAL
+ Message       : SQL dictionary health check: syn$.owner 95 on object SYN$ failed
+ Message       : Damaged rowid is AAAAA9AABAAAPEvABp - description: Synonym REPORT_FOOTNOTES is referenced
+ Finding
+ Finding Name  : Dictionary Inconsistency
+ Finding ID    : 731
+ Type          : FAILURE
+ Status        : OPEN
+ Priority      : CRITICAL
+ Message       : SQL dictionary health check: ecol$.tabobj#,colnum fk 146 on object ECOL$ failed
+ Message       : Damaged rowid is AAAkaTAABAAAU6CABe - description: Object SCHEMA.PAYMENT_SCHD_REQUEST_DETAILS is referenced
+ Finding
+ Finding Name  : Dictionary Inconsistency
+ Finding ID    : 734
+ Type          : FAILURE
+ Status        : OPEN
+ Priority      : CRITICAL
+ Message       : SQL dictionary health check: ecol$.tabobj#,colnum fk 146 on object ECOL$ failed
+ Message       : Damaged rowid is AAAkaTAABAAAU6CABi - description: Object SCHEMA.SLC_EMPLOYEES is referenced
+ Finding
+ Finding Name  : Dictionary Inconsistency
+ Finding ID    : 737
+ Type          : FAILURE
+ Status        : OPEN
+ Priority      : CRITICAL
+ Message       : SQL dictionary health check: ecol$.tabobj#,colnum fk 146 on object ECOL$ failed
+ Message       : Damaged rowid is AAAkaTAABAAAU6CABg - description: Object SCHEMA.STUD_SUPPORT_ATT_CONFS is referenced
+ Finding
+ Finding Name  : Dictionary Inconsistency
+ Finding ID    : 740
+ Type          : FAILURE
+ Status        : OPEN
+ Priority      : CRITICAL
+ Message       : SQL dictionary health check: ecol$.tabobj#,colnum fk 146 on object ECOL$ failed
+ Message       : Damaged rowid is AAAkaTAABAAAU6CABh - description: Object SCHEMA.STUD_SUPPORT_ATT_CONF_ERRORS is referenced
+
+
+1 row selected.
