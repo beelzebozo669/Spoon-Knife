@@ -1,0 +1,68 @@
+#!/usr/bin/sh
+
+## This script is meant to generate multiple AWR reports between 2 snap IDs in either html or text format based on user's choice.
+## User will be prompted for begin snap, end snap id and the interval between snaps, report format and the directory path to generate reports.
+
+## Script: By Kishore Samudrala.
+## Date: 4-Jan-2011
+## Version: 1.0
+## www.practicaloracle.com
+
+
+echo "Enter the value for begin snap id:"
+read beginid
+echo "Enter the value for end snap id:"
+read endid
+echo "Enter the value for interval between snaps.To generate reports between consecutive snaps, enter 1. Else enter desired values"
+read snapint
+echo "Enter the format for reports:  html/text"
+read repfmt
+echo "Enter the unix directory path to create the reports.Press Enter to create in current directory:"
+read repdir
+if [ "$repdir" = "" ]
+then
+repdir=$PWD
+fi
+
+while [ $beginid -lt $endid ]
+do
+tempid=`echo $beginid + $snapint |bc`
+sqlplus -s '/as sysdba'<<EOF
+set verify off
+set feedback off
+set pages 0
+set serveroutput on
+clear break compute;
+repfooter off;
+ttitle off;
+btitle off;
+
+set heading on;
+set timing off veri off space 1 flush on pause off termout on numwidth 10;
+set echo off feedback off pagesize 0 linesize 1500 newpage 1 recsep off;
+set trimspool on trimout on define "&" concat "." serveroutput on;
+set underline on;
+col endid new_value endid;
+col repname new_value repname;
+col dbid new_value dbid;
+col inst_num new_value inst_num;
+
+define beginid=$beginid;
+define tempid=$tempid;
+
+variable repname varchar2(60);
+variable dbid varchar2(10);
+variable inst_num varchar2(2);
+
+
+select dbid dbid from v\$database;
+select instance_number inst_num from v\$instance ;
+select '$repdir/AWR_'||(select instance_name inst_name from v\$instance)||'_'||(select to_char(END_INTERVAL_TIME,'DDMONYY_HH24MI')from dba_hist_snapshot where snap_id='$beginid' and instance_number=(select instance_number from v\$instance))||'_'||(select to_char(END_INTERVAL_TIME,'DDMONYY_HH24MI')from dba_hist_snapshot where snap_id='$tempid' and instance_number=(select instance_number from v\$instance))||'.$repfmt' repname from dual;
+
+spool &repname
+select output from table(dbms_workload_repository.awr_report_$repfmt(&dbid,&inst_num,&&beginid,&&tempid,0));
+spool off
+exit
+EOF
+beginid=`echo $beginid + $snapint |bc`
+done

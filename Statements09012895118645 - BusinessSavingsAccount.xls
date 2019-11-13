@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head><STYLE type="text/css">
+	#CabeceraCuerpo {font-size:10pt;font-family:arial;}
+	#CabeceraTitulo {font-size:14.0pt;font-family:Arial;text-align:left;}
+	#CabeceraFechaDescarga {font-size:9pt;font-family:arial}
+	#CabeceraCuerpoNoCuenta {font-size:12pt;font-family:arial;}
+	#CabeceraSubTitulo {font-size:11pt;font-family:arial;}
+	#CuerpoDetalleTitulo {font-size:9pt;font-family:arial;}
+	#CuerpoDetalleDoble{width:60pt;font-size:10pt;font-family:arial;text-align:left;border-bottom:.5pt hairline silver}
+	#CuerpoDetalle {font-size:10pt;font-family:arial;text-align:center;border-bottom:.5pt hairline silver}
+	#TDNoWrappedLeft {text-align:left;white-space:nowrap;width:20pt}
+	#TDNoWrappedLeftDoble {text-align:left;white-space:nowrap;width:100pt}
+	#TDNoWrappedRight {text-align:right;white-space:nowrap}
+	#TDNoWrappedTituloBorderBottom {text-align:left;white-space:nowrap;border-bottom:1pt solid windowtext}
+	#TDNoWrappedColCuerpoTituloBorderBottom {text-align:center;white-space:nowrap;border-bottom:.5pt solid windowtext}
+	#TDNoWrappedSubTituloBorderBottom {text-align:left;white-space:nowrap;border-bottom:.5pt solid windowtext}
+	#TDSeparadorInicial {width:10pt}
+	#TDSeparadorDoble {width:100pt; border-bottom:.5pt hairline silver}
+	#TDTituloSeparadorBorderBotton {width:10pt;border-bottom:1pt solid windowtext}
+	#TDTituloBorderBotton {border-bottom:1pt solid windowtext}
+	#TDSubTituloSeparadorBorderBotton {width:10pt;border-bottom:.5pt solid windowtext}
+	#TDSubTituloBorderBotton {border-bottom:.5pt solid windowtext}
+	#TDListadoBorderBottom {border-bottom:.5pt hairline silver}	
+</STYLE><meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" /></head><body><table><tr><td /><td style="TDSeparadorDoble">Transactions</td></tr><tr style="vertical-align:middle"><td id="TDSeparadorInicial" /><td id="TDNoWrappedLeftDoble"><font id="CabeceraCuerpo">XXXX XXXX XXXX 8645:
+				</font></td><td /><td><font id="CuerpoDetalle">01/11/2018
+					to
+				18/01/2019</font></td></tr><tr style="height:31.5pt"><td id="TDSeparadorInicial" /><td id="TDSubTituloBorderBotton" /><td id="TDSubTituloSeparadorBorderBotton" /><td id="TDSubTituloBorderBotton" /><td id="TDSubTituloSeparadorBorderBotton" /><td id="TDSubTituloBorderBotton" /><td id="TDSubTituloBorderBotton" /><td id="TDSubTituloBorderBotton" /><td id="TDSubTituloSeparadorBorderBotton" /><td id="TDSubTituloBorderBotton" /></tr><tr style="height:31.5pt"><td /><td id="TDSubTituloBorderBotton">Date</td><td /><td id="TDSubTituloBorderBotton">Description</td><td /><td id="TDSubTituloBorderBotton">Money in</td><td id="TDSubTituloBorderBotton">Money Out</td><td id="TDSubTituloBorderBotton">  Balance</td></tr><tr style="height:31.5pt"><td id="TDSeparadorInicial" /><td id="TDSubTituloBorderBotton" /><td id="TDSubTituloSeparadorBorderBotton" /><td id="TDSubTituloBorderBotton" /><td id="TDSubTituloSeparadorBorderBotton" /><td id="TDSubTituloBorderBotton" /><td id="TDSubTituloBorderBotton" /><td id="TDSubTituloBorderBotton" /><td id="TDSubTituloSeparadorBorderBotton" /><td id="TDSubTituloBorderBotton" /></tr><tr style="height:30pt;vertical-align:middle"><td id="TDSeparadorInicial" /><td id="TDListadoBorderBottom"><font id="CuerpoDetalle">14/01/2019</font></td><td id="TDListadoBorderBottom" /><td id="TDListadoBorderBottom"><font id="CuerpoDetalle">INTEREST PAID AFTER TAX 0.00 DEDUCTED                                                     </font></td><td id="TDListadoBorderBottom" /><td id="CuerpoDetalle"><font id="CuerpoDetalle">
+						£ 1.92</font></td><td id="CuerpoDetalle"><font id="CuerpoDetalle" /></td><td id="CuerpoDetalle"><font id="CuerpoDetalle">					
+					£ 7,257.45</font></td><td id="CuerpoDetalleDoble"><font id="CuerpoDetalle" /></td></tr><tr style="height:30pt;vertical-align:middle"><td id="TDSeparadorInicial" /><td id="TDListadoBorderBottom"><font id="CuerpoDetalle">28/12/2018</font></td><td id="TDListadoBorderBottom" /><td id="TDListadoBorderBottom"><font id="CuerpoDetalle">TRANSFER FROM JVC SOLUTIONS LIMITED                                                       </font></td><td id="TDListadoBorderBottom" /><td id="CuerpoDetalle"><font id="CuerpoDetalle">
+						£ 1,627.00</font></td><td id="CuerpoDetalle"><font id="CuerpoDetalle" /></td><td id="CuerpoDetalle"><font id="CuerpoDetalle">					
+					£ 7,255.53</font></td><td id="CuerpoDetalleDoble"><font id="CuerpoDetalle" /></td></tr><tr style="height:30pt;vertical-align:middle"><td id="TDSeparadorInicial" /><td id="TDListadoBorderBottom"><font id="CuerpoDetalle">14/12/2018</font></td><td id="TDListadoBorderBottom" /><td id="TDListadoBorderBottom"><font id="CuerpoDetalle">INTEREST PAID AFTER TAX 0.00 DEDUCTED                                                     </font></td><td id="TDListadoBorderBottom" /><td id="CuerpoDetalle"><font id="CuerpoDetalle">
+						£ 1.37</font></td><td id="CuerpoDetalle"><font id="CuerpoDetalle" /></td><td id="CuerpoDetalle"><font id="CuerpoDetalle">					
+					£ 5,628.53</font></td><td id="CuerpoDetalleDoble"><font id="CuerpoDetalle" /></td></tr><tr style="height:30pt;vertical-align:middle"><td id="TDSeparadorInicial" /><td id="TDListadoBorderBottom"><font id="CuerpoDetalle">04/12/2018</font></td><td id="TDListadoBorderBottom" /><td id="TDListadoBorderBottom"><font id="CuerpoDetalle">TRANSFER FROM JVC SOLUTIONS LIMITED                                                       </font></td><td id="TDListadoBorderBottom" /><td id="CuerpoDetalle"><font id="CuerpoDetalle">
+						£ 1,250.00</font></td><td id="CuerpoDetalle"><font id="CuerpoDetalle" /></td><td id="CuerpoDetalle"><font id="CuerpoDetalle">					
+					£ 5,627.16</font></td><td id="CuerpoDetalleDoble"><font id="CuerpoDetalle" /></td></tr><tr style="height:30pt;vertical-align:middle"><td id="TDSeparadorInicial" /><td id="TDListadoBorderBottom"><font id="CuerpoDetalle">14/11/2018</font></td><td id="TDListadoBorderBottom" /><td id="TDListadoBorderBottom"><font id="CuerpoDetalle">INTEREST PAID AFTER TAX 0.00 DEDUCTED                                                     </font></td><td id="TDListadoBorderBottom" /><td id="CuerpoDetalle"><font id="CuerpoDetalle">
+						£ 0.96</font></td><td id="CuerpoDetalle"><font id="CuerpoDetalle" /></td><td id="CuerpoDetalle"><font id="CuerpoDetalle">					
+					£ 4,377.16</font></td><td id="CuerpoDetalleDoble"><font id="CuerpoDetalle" /></td></tr><tr style="height:30pt;vertical-align:middle"><td id="TDSeparadorInicial" /><td id="TDListadoBorderBottom"><font id="CuerpoDetalle">05/11/2018</font></td><td id="TDListadoBorderBottom" /><td id="TDListadoBorderBottom"><font id="CuerpoDetalle">TRANSFER FROM JVC SOLUTIONS LIMITED                                                       </font></td><td id="TDListadoBorderBottom" /><td id="CuerpoDetalle"><font id="CuerpoDetalle">
+						£ 1,250.00</font></td><td id="CuerpoDetalle"><font id="CuerpoDetalle" /></td><td id="CuerpoDetalle"><font id="CuerpoDetalle">					
+					£ 4,376.20</font></td><td id="CuerpoDetalleDoble"><font id="CuerpoDetalle" /></td></tr><tr style="height:31.5pt"><td id="TDSeparadorInicial" /><td id="TDSubTituloBorderBotton" /><td id="TDSubTituloSeparadorBorderBotton" /><td id="TDSubTituloBorderBotton" /><td id="TDSubTituloSeparadorBorderBotton" /><td id="TDSubTituloBorderBotton" /><td id="TDSubTituloBorderBotton" /><td id="TDSubTituloBorderBotton" /><td id="TDSubTituloSeparadorBorderBotton" /><td id="TDSubTituloBorderBotton" /></tr></table></body></html>
