@@ -1,0 +1,86 @@
+TSFOP
+
+
+sfdtdb01(oracle)(TSFOP)> pwd
+/u02/app/release/dbalea/DBALEA20A.50
+
+sfdtdb01(oracle)(TSFOP)> ls -lrtasi
+total 312
+93061    0 drwxr-xr-x    2 oracle   oinstall        256 28 Aug 12:08 Interfaces
+93055    0 drwxr-xr-x    2 oracle   oinstall        256 28 Aug 12:08 ApprovePayment(SPY)
+16999   28 drwxrwxr-x  483 oracle   oinstall      28672 28 Aug 12:08 ..
+93071  104 -rw-r--r--    1 oracle   oinstall     102600 28 Aug 12:31 SICPK030.sql
+93074  176 -rw-r--r--    1 oracle   oinstall     179687 28 Aug 12:35 SPYPK003.sql
+93054    0 drwxr-xr-x    4 oracle   oinstall        256 28 Aug 12:36 .
+93072    4 -rw-r--r--    1 oracle   oinstall       3443 28 Aug 12:38 typescript_S102760_v1.1_20190828.txt
+
+sfdtdb01(oracle)(TSFOP)> find . -inum 93055 -exec cp -pr {} jim \;
+
+sfdtdb01(oracle)(TSFOP)> cd jim
+sfdtdb01(oracle)(TSFOP)> cp SPYPK003.sql ..
+sfdtdb01(oracle)(TSFOP)> rm -rf jim
+
+=================================================================================
+
+TFEOP
+
+[oracle@spbtrdb13n01 Packages]$ ls -lrtasgi
+total 20
+5358985 4 drwxr-xr-x  2 oinstall 4096 Aug 28 12:07 System (UT)
+5358983 4 drwxr-xr-x  2 oinstall 4096 Aug 28 12:07 Register and Confirm Student           (RC)
+5358979 4 drwxr-xr-x  2 oinstall 4096 Aug 28 12:07 Process Application (PA)
+5358978 4 drwxr-xr-x  5 oinstall 4096 Aug 28 12:07 .
+5358973 4 drwxr-xr-x  6 oinstall 4096 Aug 28 12:46 ..
+[oracle@spbtrdb13n01 Packages]$ find . -inum 5358985 -exec cp -pr {} jim01 \;
+[oracle@spbtrdb13n01 Packages]$ find . -inum 5358983 -exec cp -pr {} jim02 \;
+[oracle@spbtrdb13n01 Packages]$ find . -inum 5358979 -exec cp -pr {} jim03 \;
+[oracle@spbtrdb13n01 Packages]$ ls
+jim01  jim03                     Register and Confirm Student (RC)
+jim02  Process Application (PA)  System (UT)
+[oracle@spbtrdb13n01 Packages]$ cd jim01
+[oracle@spbtrdb13n01 jim01]$ ls
+XXAUTPK001.sql
+[oracle@spbtrdb13n01 jim01]$ mv XXAUTPK001.sql ..
+[oracle@spbtrdb13n01 jim01]$ cd ../jim02
+[oracle@spbtrdb13n01 jim02]$ ls
+XXARCPK003.sql
+[oracle@spbtrdb13n01 jim02]$ mv XXARCPK003.sql ..
+[oracle@spbtrdb13n01 jim02]$ ls
+[oracle@spbtrdb13n01 jim02]$ cd ../jim03
+[oracle@spbtrdb13n01 jim03]$ ls
+XXAPAPK017.sql  XXAPAPK019.sql  XXAPAPK031.sql
+[oracle@spbtrdb13n01 jim03]$ mv *.sql ..
+[oracle@spbtrdb13n01 jim03]$ ls
+[oracle@spbtrdb13n01 jim03]$ cd ..
+[oracle@spbtrdb13n01 Packages]$ ls
+jim01  Process Application (PA)           XXAPAPK017.sql  XXARCPK003.sql
+jim02  Register and Confirm Student (RC)  XXAPAPK019.sql  XXAUTPK001.sql
+jim03  System (UT)                        XXAPAPK031.sql
+[oracle@spbtrdb13n01 Packages]$ rm -rf jim0*
+[oracle@spbtrdb13n01 Packages]$ ls
+Process Application (PA)           XXAPAPK017.sql  XXARCPK003.sql
+Register and Confirm Student (RC)  XXAPAPK019.sql  XXAUTPK001.sql
+System (UT)                        XXAPAPK031.sql
+[oracle@spbtrdb13n01 Packages]$ mv *.sql ..
+[oracle@spbtrdb13n01 Packages]$ ls
+Process Application (PA)  Register and Confirm Student (RC)  System (UT)
+[oracle@spbtrdb13n01 Packages]$ cd ..
+[oracle@spbtrdb13n01 DBAALG16ZG.34]$ ls
+DBAALG16ZG_34_BUILD.sql  Packages        XXAPAPK019.sql        XXAPAPK031.sql
+Grants                   Synonyms        XXAPAPK031_1_GNT.sql  XXARCPK003.sql
+Miscellaneous            XXAPAPK017.sql  XXAPAPK031_1_SYN.sql  XXAUTPK001.sql
+[oracle@spbtrdb13n01 DBAALG16ZG.34]$ pwd
+/u02/app/release/dbaalg/DBAALG16ZG.34
+[oracle@spbtrdb13n01 DBAALG16ZG.34]$ script typescript_S102760_v1.5_20190828.txt
+Script started, file is typescript_S102760_v1.5_20190828.txt
+[oracle@spbtrdb13n01 DBAALG16ZG.34]$ whoami; pwd; ls; sqlplus '/ as sysdba'
+oracle
+/u02/app/release/dbaalg/DBAALG16ZG.34
+DBAALG16ZG_34_BUILD.sql  typescript_S102760_v1.5_20190828.txt  XXAPAPK031.sql
+Grants                   XXAPAPK017.sql                        XXARCPK003.sql
+Miscellaneous            XXAPAPK019.sql                        XXAUTPK001.sql
+Packages                 XXAPAPK031_1_GNT.sql
+Synonyms                 XXAPAPK031_1_SYN.sql
+
+=================================================================================
+

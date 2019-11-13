@@ -1,0 +1,151 @@
+==============================================================================================================================================================
+12/08/2019 - SAR S97819 - Master SAR S97503
+==============================================================================================================================================================
+Enter user name to be queried : BARKERLU
+
+Report Date: 12/09/2019 11:36                                                                                                               Page:    1
+
+                                                               SLC EMPLOYEE Query Report
+
+Forename                       Surname                        Class User ID   Active Flag                    Created By      Created
+------------------------------ ------------------------------ --------------- ------------------------------ --------------- --------------------
+LUKE                           BARKER                         BARKERLU        Y                              CAMPBEB         31/08/2015 13:29:23
+
+
+
+Report Date: 12/09/2019 11:36                                                                                                               Page:    1
+
+                                                               Logon Audit Query Report
+
+User name                      Login Date
+------------------------------ --------------------
+BARKERLU                       03/09/2019 19:30:18
+
+
+
+Report Date: 12/09/2019 11:36                                                                                                               Page:    1
+
+                                                                DBA Users Query Report
+
+User name                      Status                         Locked               Expired              Created
+------------------------------ ------------------------------ -------------------- -------------------- --------------------
+BARKERLU                       OPEN                                                10/11/2019 11:11:13  12/08/2019 11:11:13
+
+
+
+Report Date: 12/09/2019 11:36                                                                                                               Page:    1
+
+                                                             User Privileges Query Report
+
+Grantee                        Granted Role(s)                ADM DEL DEF COM
+------------------------------ ------------------------------ --- --- --- ---
+BARKERLU                       CLASS_REPORT                   NO  NO  YES NO
+BARKERLU                       CLASS_USER                     NO  NO  NO  NO
+BARKERLU                       OPS_ADM                        NO  NO  YES NO
+
+==============================================================================================================================================================
+12/08/2019 - SAR S97811 - Master SAR S97761
+==============================================================================================================================================================
+Enter user name to be queried : WEBBERK
+
+Report Date: 12/09/2019 11:40                                                                                                               Page:    1
+
+                                                               SLC EMPLOYEE Query Report
+
+Forename                       Surname                        Class User ID   Active Flag                    Created By      Created
+------------------------------ ------------------------------ --------------- ------------------------------ --------------- --------------------
+KIM                            WEBBER                         WEBBERK         N                              MCLUSKC         03/09/2009 12:13:03
+
+
+
+Report Date: 12/09/2019 11:40                                                                                                               Page:    1
+
+                                                               Logon Audit Query Report
+
+User name                      Login Date
+------------------------------ --------------------
+WEBBERK                        28/06/2019 07:49:12
+
+
+
+no rows selected
+
+
+no rows selected
+
+==============================================================================================================================================================
+23/08/2019 - SAR S101190 - Master SAR S100628
+==============================================================================================================================================================
+Enter user name to be queried : TPGOLDIEIA
+
+Report Date: 12/09/2019 11:42                                                                                                               Page:    1
+
+                                                               SLC EMPLOYEE Query Report
+
+Forename                       Surname                        Class User ID   Active Flag                    Created By      Created
+------------------------------ ------------------------------ --------------- ------------------------------ --------------- --------------------
+IAIN                           GOLDIE                         TPGOLDIEIA      Y                              HUNTERMA        22/08/2019 14:05:46
+
+
+
+Report Date: 12/09/2019 11:42                                                                                                               Page:    1
+
+                                                               Logon Audit Query Report
+
+User name                      Login Date
+------------------------------ --------------------
+TPGOLDIEIA                     12/09/2019 08:55:07
+
+
+
+Report Date: 12/09/2019 11:42                                                                                                               Page:    1
+
+                                                                DBA Users Query Report
+
+User name                      Status                         Locked               Expired              Created
+------------------------------ ------------------------------ -------------------- -------------------- --------------------
+TPGOLDIEIA                     OPEN                                                25/11/2019 14:55:45  23/08/2019 09:39:04
+
+
+
+Report Date: 12/09/2019 11:42                                                                                                               Page:    1
+
+                                                             User Privileges Query Report
+
+Grantee                        Granted Role(s)                ADM DEL DEF COM
+------------------------------ ------------------------------ --- --- --- ---
+TPGOLDIEIA                     CLASS_REPORT                   NO  NO  YES NO
+TPGOLDIEIA                     CLASS_USER                     NO  NO  NO  NO
+TPGOLDIEIA                     OPS_ADM                        NO  NO  YES NO
+
+==============================================================================================================================================================
+28/08/2019 - SAR S102637 - Master SAR S 	
+==============================================================================================================================================================
+Enter user name to be queried : TPGILLESEM
+
+Report Date: 12/09/2019 11:46                                                                                                               Page:    1
+
+                                                               SLC EMPLOYEE Query Report
+
+Forename                       Surname                        Class User ID   Active Flag                    Created By      Created
+------------------------------ ------------------------------ --------------- ------------------------------ --------------- --------------------
+EMMA                           GILLESPIE                      TPGILLESEM      N                              MAILLET         20/02/2017 15:49:36
+
+
+
+Report Date: 12/09/2019 11:46                                                                                                               Page:    1
+
+                                                               Logon Audit Query Report
+
+User name                      Login Date
+------------------------------ --------------------
+TPGILLESEM                     06/07/2018 10:12:02
+
+
+
+no rows selected
+
+
+no rows selected
+
+==============================================================================================================================================================

@@ -1,0 +1,227 @@
+CM49720 XXPREPAY
+
+Change Impact
+
+Servers
+D1AVDBCSPP21, D1AVDBCSTE17, D1AVDBCSTR10, D2AVDBCSDE20, D2AVDBCSPE10, D2AVDBCSTE12, D2AVDBCSTE40
+
+
+Databases Other
+NextTest – CL12CNT
+SupportTest - CL12CST
+OAT –  CL12CBS
+Training2 - CL12CTRG
+Live - CLASS_L
+SYS97 database
+BASE database
+
+
+
+Details
+Change Impact
+
+Creation of a new schema in CLASS databases as requested by the CLASS Development team.
+
+This change is part of the PG Doctoral project, there is a requirement for the creation of a new schema in the Class instance. 
+
+The new schema is to be called XXPREPAY and connection as this user (XXPREPAY) will be required to create objects (tables, packages, triggers etc) in this schema.
+
+This schema has been created in CL12CDEV in the first instance and will now be created in:
+
+NextTest – CL12CNT           complete 21/11 @ 1500
+SupportTest - CL12CST       complete 22/11 @ 12:31
+OAT –  CL12CBS                 complete 23/11 @ 15:43
+Training2 - CL12CTRG        complete 29/11 @ 14:54
+Live - CLASS_L
+SYS97 database                 complete 22/11 @ 13:52           
+BASE database                   complete 22/11 @ 14:09
+
+grant execute on dbms_lob to xxprepay;  
+(above added to implementation details on 23/11 - requirement discovered during project work on CL12CDEV database - this will be applied to databases (CL12CNT, SYS97, BASE & CL12CST) and to remaining databases when schema created on these.)
+
+A separate AI will be raised to progress this to other test environments and live. TBC
+
+Impact if not applied
+Development work will not be able to proceed.
+
+Risk
+Low - tested successfully in the Dev environment – D:12CDEV
+
+Implementation Instructions
+Dependencies	-	Yes
+Please Specifiy	-	Passwords for all databases except Live will be stored in DBA password spreadsheets.
+                        Password for live will be on-boarderd to CyberArk, advice will be required from the Security team for the appropriate CyberArk safe to add this to.
+
+
+Implementation Instructions
+Connect to the database using SQL*Plus with / as sysdba and execute the following 
+(having replace {DB NAME} with the appropriate database name and {PASSWORD} with a suitable password:
+
+create tablespace xxprepaydata datafile '/{DB NAME}_DATA/{DB NAME}/xxprepaydata01.dbf' size 200m;
+create tablespace xxprepayindex datafile '/{DB NAME}_DATA/{DB NAME}/xxprepayindex01.dbf' size 200m;
+
+create user xxprepay identified by {PASSWORD}
+default tablespace xxprepaydata
+temporary tablespace temp
+quota unlimited on xxprepaydata
+quota unlimited on xxprepayindex;
+grant create session to xxprepay;
+grant create any index to xxprepay;
+grant create sequence to xxprepay;
+grant create synonym to xxprepay;
+grant create table to xxprepay;
+grant create view to xxprepay;
+grant resource to xxprepay;
+
+grant select on v_$database to xxprepay;
+grant execute on dbms_aq to xxprepay;
+
+grant execute on dbms_lob to xxprepay;  
+(added on 23/11 - requirement discovered during project work on CL12CDEV database)
+
+Post implementation testing
+Handed over to development team to commence development and advise if any issues.
+
+
+
+CM54144 Create XXPAY
+CM57033 Privileges to XXPAY
+
+
+Change Impact
+
+Servers
+D1AVDBCSPP21, D1AVDBCSTE17, D1AVDBCSTR10, D2AVDBCSDE20, D2AVDBCSPE10, D2AVDBCSTE12, D2AVDBCSTE40
+
+
+Databases Other
+NextTest – CL12CNT
+SupportTest - CL12CST
+OAT –  CL12CBS
+Training2 - CL12CTRG
+Live - CLASS_L
+SYS97 database
+BASE database
+
+
+
+Details
+Change Impact
+Development have requested two additional schemas in CLASS as follows:
+
+“Can two new schemas, XXPAY and  XXCLASSORDS please be created in CL12CDEV. Once this has been done in dev, we would like these to be rolled out to all other Class databases. This is required as part of PG Masters changes for 19/20.
+
+Schemas should be based on the recently created XXHEIREPORTS schema. The new schemas should both be ORDS enabled.
+	XXCLASSORDS should allow creation of Views and Packages.
+	XXPAY should allow creation of Tables, Views and Packages.
+
+
+XXPAY
+This schema is required as part of further separation of Class Pay functions into smaller separate components, which was first introduced last year with the creation of the XXPREPAY schema. This schema will implement Payment functions. It will accept payment instructions from XXPREPAY, and will be responsible for the creation of Journals of payment transactions in Class.
+
+XXCLASSORDS
+The reason for this new schema is to make further use of REST services within components in the Class database instance. In the future, we (Class Pay team) will be looking to move some of these components into a separate instance, but would still require access to a limited set of Class data and functions. By moving to REST services for inter schema interactions, the separation to a new instance will be more straightforward.”
+
+Schemas will be created under the following schedule: 
+
+NextTest – CL12CNT:        02/11 @ 10am
+Bothwell St – CL12CBS:     20/11 @ 10am
+SupportTest – CL12CST:   08/01/19 @ 10.30am
+Live – CLASS_L:               17/01 @ 12pm
+Training – CL12CTR:          tbc
+
+
+Impact if not applied
+Delay in development work.
+
+
+Risk
+Low risk as creating schema is a standard process.
+
+Implemetation Instructions
+Run the following in the relevant CLASS database (note that the path for the datafiles is unique for each environment):
+
+create tablespace xxpaydata datafile '/DB_DATA /DB/xxpaydata01.dbf' size 200m;
+create tablespace xxpayindex datafile '/DB_DATA/DB/xxpayindex01.dbf' size 200m;
+
+create user xxpay identified by &xxpaypassword
+default tablespace xxpaydata;
+grant create procedure to xxpay;
+grant connect to xxpay;
+grant resource to xxpay;
+alter user xxpay quota unlimited on xxpaydata;
+alter user xxpay quota unlimited on xxpayindex;
+
+connect xxpay/&xxpaypassword;
+exec ords.enable_schema;
+create tablespace xxclassordsdata datafile '/DB_DATA /DB/xxclassordsdata01.dbf' size 200m;
+create tablespace xxclassordsindex datafile '/DB_DATA/DB/xxclassordsindex01.dbf' size 200m;
+
+create user xxclassords identified by &xxclassordspassword
+default tablespace xxclassordsdata;
+grant create procedure to xxclassords;
+grant connect to xxclassords;
+grant resource to xxclassords;
+alter user xxclassords quota unlimited on xxclassordsdata;
+alter user xxclassords quota unlimited on xxclassordsindex;
+
+connect xxclassords/&xxclassordspassword;
+exec ords.enable_schema;
+
+Note that once these accounts are created in Live, then the accounts will be on-boarded to CyberArk (utilising Safe=P-ORA-SRV-CLASS and Platform=Oracle – Full Dual – Freq).  See G:\Technical Support\DBA\DBA Docs\Protocol\knowledge_log\CyberArk\Onboard database account to CyberArk.docx for details.
+
+Following steps added (16/11) :
+
+alter user xxpay quota unlimited on xxpaydata;
+alter user xxpay quota unlimited on xxpayindex;
+grant execute on utl_http to xxpay;
+grant execute on dbms_lob to xxpay;
+
+alter user xxclassords quota unlimited on xxclassordsdata;
+alter user xxclassords quota unlimited on xxclassordsindex;
+grant execute on utl_http to xxclassords;
+grant execute on dbms_lob to xxclassords;
+
+Following steps added (8/1) :
+
+grant execute on DBMS_AQADM to XXPAY;
+grant execute on DBMS_AQ to XXPAY;
+
+grant execute on DBMS_AQADM to XXCLASSORDS;
+grant execute on DBMS_AQ to XXCLASSORDS;
+
+Post-Testing
+Establish a sqlplus session as the xxpay and xxclassords users to prove creation has been completed
+
+
+====
+
+This change will apply the following privileges to the XXPAY schema:
+
+grant CREATE JOB to XXPAY;
+grant EXECUTE on DBMS_SCHEDULER to XXPAY;
+grant EXECUTE on UTL_FILE to XXPAY;
+
+
+Impact if not applied
+The live deployment will not be able to complete.
+
+Risk 
+Low - this has been implemented successfully in Development and SupportTest. 
+
+
+All DB's
+grant CREATE JOB to XXPAY;
+grant EXECUTE on DBMS_SCHEDULER to XXPAY;
+grant execute on UTL_FILE to XXPAY;
+
+
+Post implementation testing
+The following commands will show if the privileges have been successfully granted...
+select * from dba_tab_privs where table_name = 'UTL_FILE' and grantee = 'XXPAY';
+select * from dba_tab_privs where table_name = 'DBMS_SCHEDULER' and grantee = 'XXPAY';
+select * from dba_sys_privs where  grantee = 'XXPAY';
+
+
+
+

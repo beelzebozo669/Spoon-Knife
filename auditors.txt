@@ -1,0 +1,216 @@
+9.2.2 and 9.2.6
+====================================================================================
+The following script checks to see if the user exists in SLC_EMPLOYEES for CLASS
+Users are never removed from the SLC_EMPLOYEES table
+For a new user the ACTIVE_FLAG should show 'Y'
+For a leaving user the ACTIVE_FLAG should show 'N'
+====================================================================================
+SET LINESIZE 200
+SET PAGESIZE 25
+
+COLUMN forenames     FORMAT A30
+COLUMN surname       FORMAT A30
+COLUMN created_by    FORMAT A15
+COLUMN class_user_id FORMAT A15
+
+  SELECT forenames,
+         surname,
+         class_user_id,
+         active_flag,
+         created_by,
+         TO_CHAR(created_date,'DD/MM/YYYY HH24:MI:SS')
+    FROM class.slc_employees
+   WHERE class_user_id IN UPPER(('&USERS'))
+ORDER BY active_flag, class_user_id;
+
+SET LINESIZE 80
+SET PAGESIZE 20
+
+====================================================================================
+The following script checks to see if the user has logged into the database
+A returning user can have a previous login returned
+====================================================================================
+SET LINES 132
+SET PAGESIZE 25
+
+alter session set nls_date_format = 'DD/MM/YYYY';
+
+COLUMN username FORMAT A30
+
+  SELECT username, to_char(max(timestamp),'DD/MM/YYYY HH24:MI:SS') LOGIN
+    FROM logon_audit
+   WHERE username IN UPPER(('&USERS'))
+GROUP BY username
+ORDER BY 2, 1;
+
+SET LINESIZE 100
+SET PAGESIZE 80
+
+====================================================================================
+The following script checks to see if the user exists in the database
+A user must exist in the database
+Leaving users should not exist in the database
+====================================================================================
+SET LINESIZE 200
+SET PAGESIZE 25
+
+COLUMN username FORMAT A30
+
+  SELECT username,
+         account_status,
+         TO_CHAR(lock_date,'DD/MM/YYYY HH24:MI:SS'),
+         TO_CHAR(expiry_date,'DD/MM/YYYY HH24:MI:SS'),
+         TO_CHAR(created,'DD/MM/YYYY HH24:MI:SS')
+    FROM dba_users
+   WHERE username IN UPPER(('&USERS'))
+ORDER BY username;
+
+SET LINESIZE 80
+SET PAGESIZE 20
+
+====================================================================================
+The following script lists the roles assigned to a user
+Deafult roles granted to CLASS users are CLASS_REPORT and CLASS_USER
+Other roles exist but are called out for assignment to users based on job function
+====================================================================================
+SET LINESIZE 132
+SET PAGESIZE 30
+
+COLUMN grantee      FORMAT A30
+COLUMN granted_role FORMAT A30
+
+  SELECT *
+    FROM dba_role_privs
+   WHERE grantee IN UPPER(('&USERS'))
+ORDER BY grantee, granted_role;
+
+SET LINESIZE 80
+SET PAGESIZE 20
+
+9.4.2
+====================================================================================
+====================================================================================
+
+CREATE PROFILE "CLASSUSER" LIMIT
+COMPOSITE_LIMIT DEFAULT                             ---          - A weighted sum of CPU_PER_SESSION, CONNECT_TIME, LOGICAL_READS_PER_SESSION, and PRIVATE_SGA
+CONNECT_TIME DEFAULT                                ---          - Max. time user can stay connected
+CPU_PER_CALL DEFAULT                                ---          - Limits the amount of CPU that a single SQL statement can consume, expressed in hundredths of seconds, every SQL call to the DBMS
+CPU_PER_SESSION DEFAULT                             ---          - Limits the total amount of CPU that all the SQL statements that are run in a single session can consume, expressed in hundredth of seconds, calculated from user connection check out till check in
+FAILED_LOGIN_ATTEMPTS 3                             ---          - Max no. of incorrect logins before account is locked
+IDLE_TIME DEFAULT                                   ---          - Max. time user can stay connected and idle
+LOGICAL_READS_PER_CALL DEFAULT                      ---          - Maximum blocks read per call
+LOGICAL_READS_PER_SESSION DEFAULT                   ---          - Maximum blocks read per session ~ db block gets + consistent gets
+PASSWORD_GRACE_TIME 432000/86400                    ---   5 days - Lock account X days after LIFE_TIME expires
+PASSWORD_LIFE_TIME 7776000/86400                    ---  90 days - Expire password after X no of days
+PASSWORD_LOCK_TIME 86400/86400                      ---   1 day  - Max. no. of days an account will be locked
+PASSWORD_REUSE_MAX 20                               ---          - Min. no. of number of password changes before the current password can be reused
+PASSWORD_REUSE_TIME 31536000/86400                  --- 365 days - Min. no. days before the same password can be reused
+PASSWORD_VERIFY_FUNCTION "CLASS12C_VERIFY_FUNCTION" ---          - Function test for various allowed and diallowed characters, length and passwords 
+PRIVATE_SGA DEFAULT                                 ---          - Session space in the shared pool - K or M (bytes)
+SESSIONS_PER_USER DEFAULT;                          ---          - Maximum concurrent sessions allowed for a user
+
+
+Violating CPU_PER_CALL limit just creates an ORA-Error ( = Terminates Execution )
+Violating CPU_PER_SESSION limit creates an ORA-Error and logs you of ( = Terminates Execution and Session)
+
+Data dictionary views for profiles and resources: DBA_PROFILES, RESOURCE_COST and USER_RESOURCE_LIMITS
+
+====================================================================================
+The following function checks password validity, length and characters
+====================================================================================
+
+CREATE OR REPLACE NONEDITIONABLE FUNCTION "SYS"."CLASS12C_VERIFY_FUNCTION" (username varchar2, password varchar2, old_password varchar2)
+RETURN boolean IS
+   differ          integer;
+   pw_lower        varchar2(256);
+   db_name         varchar2(40);
+   i               integer;
+   simple_password varchar2(10);
+   reverse_user    varchar2(32);
+BEGIN
+   IF NOT ora_complexity_check(password, chars => 8, letter => 1, digit => 1, special => 1) THEN
+      RETURN(FALSE);
+   END IF;
+
+   -- Check if the password contains the username
+   pw_lower := NLS_LOWER(password);
+   IF instr(pw_lower, NLS_LOWER(username)) > 0 THEN
+     raise_application_error(-20002, 'Password contains the username');
+   END IF;
+
+   -- Check if the password contains the username reversed
+   reverse_user := '';
+   FOR i in REVERSE 1..length(username) LOOP
+     reverse_user := reverse_user || substr(username, i, 1);
+   END LOOP;
+   IF instr(pw_lower, NLS_LOWER(reverse_user)) > 0 THEN
+     raise_application_error(-20003, 'Password contains the username reverse');
+   END IF;
+
+   -- Check if the password contains the server name
+   select name into db_name from sys.v$database;
+   IF instr(pw_lower, NLS_LOWER(db_name)) > 0 THEN
+      raise_application_error(-20004, 'Password contains the server name');
+   END IF;
+
+   -- Check if the password is too simple. A dictionary of words may be
+   -- maintained and a check may be made so as not to allow the words
+   -- that are too simple for the password.
+   -- Check if the password contains 'oracle'
+
+   IF instr(pw_lower, 'oracle')            > 0
+   or instr(pw_lower, 'welcome1')          > 0
+   or instr(pw_lower, 'database1')         > 0
+   or instr(pw_lower, 'account1')          > 0
+   or instr(pw_lower, 'user1234')          > 0
+   or instr(pw_lower, 'password1')         > 0
+   or instr(pw_lower, 'computer1')         > 0
+   or instr(pw_lower, 'abcdefg1')          > 0
+   or instr(pw_lower, 'change_on_install') > 0 then
+        raise_application_error(-20006, 'Password too simple');
+   END IF;
+
+   -- check if password contains special characters and spaces and at -- joshipun
+
+   IF instr(pw_lower, '@') > 0 then
+        raise_application_error(-20003, 'Password cannot contain "@" character');
+   END IF;
+
+   IF instr(pw_lower, '"') > 0 then
+        raise_application_error(-20003, 'Password cannot contain "double quotes"');
+   END IF;
+
+
+   IF instr(pw_lower, ' ') > 0 then
+        raise_application_error(-20003, 'Password cannot contain spaces');
+   END IF;
+
+
+   IF length(pw_lower) > 30 THEN
+        raise_application_error(-20003, 'Password length is greater than 30 chars.');
+   END IF;
+
+   IF old_password IS NOT NULL THEN
+     differ := ora_string_distance(old_password, password);
+     IF differ < 3 THEN
+        raise_application_error(-20010, 'Password should differ from the old password by at least 3 characters');
+     END IF;
+   END IF ;
+
+   RETURN(TRUE);
+END class12c_verify_function;
+/
+
+
+12.1.4
+====================================================================================
+====================================================================================
+Dev	        CL12CDEV
+Nexttest	CL12CNT
+SupportTest	CL12CST
+Bothwell St CL12CBS
+Live	    CLASS_L
+Training	CL12CTRG
+
+====================================================================================
+====================================================================================

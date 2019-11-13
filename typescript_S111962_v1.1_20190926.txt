@@ -1,0 +1,454 @@
+d2avdbcste12(oracle)(CL12CNT)> sqlplus '/ as sysdba'
+
+SQL*Plus: Release 12.1.0.2.0 Production on Thu Sep 26 09:29:53 2019
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+
+SQL> SET LINESIZE 132 PAGESIZE 30
+SQL>
+COLUMN owner       FORMAT A30
+COLUMN object_name FORMAT A30
+SQL> SQL> SQL>
+SHOW USER
+
+  SELECT owner,
+         object_name,
+         object_type
+    FROM dba_objects
+SQL> USER is "SYS"
+SQL> SQL>   2    3    4    5     WHERE status = 'INVALID'
+ORDER BY object_name, object_type, owner;
+
+CLEAR COLUMNS
+  6
+OWNER                          OBJECT_NAME                    OBJECT_TYPE
+------------------------------ ------------------------------ -----------------------
+CLASS                          CIRPK048                       PACKAGE BODY
+CLASS                          CIRPK103                       PACKAGE BODY
+SYS                            CWM2_OLAP_INSTALLER            PACKAGE BODY
+XXPAY                          PAYPK004                       PACKAGE BODY
+ORACLE                         SDBA_SPACE                     PACKAGE BODY
+ORACLE                         SDBA_SPACE_ESTIMATE            FUNCTION
+
+6 rows selected.
+
+SQL> SQL> columns cleared
+SQL> @DBACLA18J_28_CLASS_BUILD.sql
+
+
+SQL>
+SQL> --*********************************************************
+SQL> --* DISPLAYING BANNER BEFORE UPDATE DB,DATE/TIME,SPOOL FILE
+SQL> --*********************************************************
+SQL>
+SQL> select user,
+  2         name database,
+  3         to_char (sysdate, 'dd/mm/yyyy hh24:mi:ss') date_time,
+  4         '&l_spool_file' spool_file_name
+  5    from v$database
+  6  /
+
+USER                           DATABASE  DATE_TIME           SPOOL_FILE_NAME
+------------------------------ --------- ------------------- ----------------------------------
+SYS                            CL12CNT   26/09/2019 09:33:07 CR30122_CL12CNT_20190926093307.log
+
+1 row selected.
+
+SQL>
+SQL>
+SQL> set verify on
+SQL>
+SQL> --*********************************************************
+SQL> --* Execute class grants script
+SQL> --*********************************************************
+SQL>
+SQL> prompt *************************************
+*************************************
+SQL> prompt * Executing CLASS Grants Script
+* Executing CLASS Grants Script
+SQL> prompt *************************************
+*************************************
+SQL> start CIRPK174_1_GNT.sql
+SQL> -- live update template version 1.2
+SQL> -- ##########################################################################
+SQL> -- #                                                                        #
+SQL> -- # Script         : CIRPK174_1_GNT.sql                                    #
+SQL> -- #                                                                        #
+SQL> -- # Author         : Krishna Yerra                                                 #
+SQL> -- #                                                                        #
+SQL> -- # Description : Granting Privileges on a Directory                       #
+SQL> -- #                                                                        #
+SQL> -- # Modification History:                                                  #
+SQL> -- #                                                                        #
+SQL> -- # +=========+=================+========+===============================+ #
+SQL> -- # |Date     |Who              |Version |Description                    | #
+SQL> -- # +=========+=================+========+===============================+ #
+SQL> -- # |18/09/19 |Krishna Yerra       |1.0   |Initial Version                       | #
+SQL> -- # |--------------------------------------------------------------------| #
+SQL> -- # |19/09/19 |Krishna Yerra       |1.1   |Amended to remove Write privilege| #
+SQL> -- # |--------------------------------------------------------------------| #
+SQL> -- # |25/09/19 |Krishna Yerra       |1.2   |Amended to add CLASS schema      | #
+SQL> -- # |--------------------------------------------------------------------| #
+SQL> -- ##########################################################################
+SQL>
+SQL> --*********************************************************
+SQL> --* SETTING SQL*PLUS ENVIRONMENT VARIABLES
+SQL> --*********************************************************
+SQL>
+SQL> set heading    off
+SQL> set feedback   off
+SQL> set echo       off
+
+
+SQL> set numwidth 12
+SQL>
+SQL> --*********************************************************
+SQL> --* DISPLAYING BANNER BEFORE UPDATE DB,DATE/TIME,SPOOL FILE
+SQL> --*********************************************************
+SQL>
+SQL> select user,
+  2         name database,
+  3         to_char(sysdate, 'dd/mm/yyyy hh24:mi:ss') date_time,
+  4         '&l_spool_file'                             spool_file_name
+  5  from   v$database
+  6  /
+
+USER                           DATABASE  DATE_TIME           SPOOL_FILE_NAME
+------------------------------ --------- ------------------- -------------------------------------------------------
+SYS                            CL12CNT   26/09/2019 09:33:07 G:\SYSTEM~1\CyberArk\CR30114_CL12CNT_20190926093307.log
+
+1 row selected.
+
+SQL>
+SQL> --**********************************************************
+SQL> --* DISPLAYING the Privileges before Grant
+SQL> --**********************************************************
+SQL>
+SQL>
+SQL> set verify on
+SQL>
+SQL> select * from all_tab_privs where table_name = 'EXT_TAB_INP'
+  2  /
+
+GRANTOR                                                                                                                          GRANTEE
+-------------------------------------------------------------------------------------------------------------------------------- --------------------------------------------------------------------------------------------------------------------------------
+TABLE_SCHEMA                                                                                                                     TABLE_NAME                                                                                                                       PRIVILEGE
+-------------------------------------------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------------------------------- ----------------------------------------
+GRA HIE COM TYPE
+--- --- --- ------------------------
+SYS                                                                                                                              WARWICGA
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      READ
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              COCKBUNE
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      READ
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              DOSHIJA
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      READ
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              GB_CLASSREL
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      READ
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              CLASS_USER
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      READ
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              CLASS
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      READ
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              WARWICGA
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      WRITE
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              COCKBUNE
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      WRITE
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              DOSHIJA
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      WRITE
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              GB_CLASSREL
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      WRITE
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              CLASS_USER
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      WRITE
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              CLASS
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      WRITE
+NO  NO  NO  DIRECTORY
+
+
+12 rows selected.
+
+SQL> select * from all_tab_privs where table_name = 'EXPER_IN_BOUND_EXT'
+  2  /
+
+no rows selected
+
+SQL> --**********************************************************
+SQL> --* Granting Required Privileges
+SQL> --**********************************************************
+SQL>
+SQL> grant read,write on directory ext_tab_inp to class
+  2  /
+
+Grant succeeded.
+
+SQL> grant read,write on directory ext_tab_inp to class_user
+  2  /
+
+Grant succeeded.
+
+SQL> grant read,write on directory ext_tab_inp to batsh
+  2  /
+
+Grant succeeded.
+
+SQL> grant read,write on directory ext_tab_inp to class_batsh
+  2  /
+
+Grant succeeded.
+
+SQL> grant select on class.exper_in_bound_ext to class_user
+  2  /
+
+Grant succeeded.
+
+SQL> grant select on class.exper_in_bound_ext to batsh
+  2  /
+
+Grant succeeded.
+
+SQL> grant select on class.exper_in_bound_ext to class_batsh
+  2  /
+
+Grant succeeded.
+
+SQL>
+SQL>
+SQL> --*********************************************************
+SQL> --* List the Grants Made
+SQL> --*********************************************************
+SQL>
+SQL> set verify on
+SQL>
+SQL> select * from all_tab_privs where table_name = 'EXT_TAB_INP'
+  2  /
+
+GRANTOR                                                                                                                          GRANTEE
+-------------------------------------------------------------------------------------------------------------------------------- --------------------------------------------------------------------------------------------------------------------------------
+TABLE_SCHEMA                                                                                                                     TABLE_NAME                                                                                                                       PRIVILEGE
+-------------------------------------------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------------------------------- ----------------------------------------
+GRA HIE COM TYPE
+--- --- --- ------------------------
+SYS                                                                                                                              WARWICGA
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      READ
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              COCKBUNE
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      READ
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              DOSHIJA
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      READ
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              CLASS_BATSH
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      READ
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              GB_CLASSREL
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      READ
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              CLASS_USER
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      READ
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              BATSH
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      READ
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              CLASS
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      READ
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              WARWICGA
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      WRITE
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              COCKBUNE
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      WRITE
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              DOSHIJA
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      WRITE
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              CLASS_BATSH
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      WRITE
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              GB_CLASSREL
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      WRITE
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              CLASS_USER
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      WRITE
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              BATSH
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      WRITE
+NO  NO  NO  DIRECTORY
+
+SYS                                                                                                                              CLASS
+SYS                                                                                                                              EXT_TAB_INP                                                                                                                      WRITE
+NO  NO  NO  DIRECTORY
+
+
+16 rows selected.
+
+SQL> select * from all_tab_privs where table_name = 'EXPER_IN_BOUND_EXT'
+  2  /
+
+no rows selected
+
+SQL>
+SQL> --*********************************************************
+SQL> --* DISPLAYING BANNER AFTER UPDATE DB,DATE/TIME,SPOOL FILE
+SQL> --*********************************************************
+SQL>
+SQL> set verify off
+SQL>
+SQL> select user,
+  2         name database,
+  3         to_char(sysdate, 'dd/mm/yyyy hh24:mi:ss') date_time,
+  4         '&l_spool_file'                           spool_file_name
+  5  from   v$database
+  6  /
+
+USER                           DATABASE  DATE_TIME           SPOOL_FILE_NAME
+------------------------------ --------- ------------------- -------------------------------------------------------
+SYS                            CL12CNT   26/09/2019 09:33:08 G:\SYSTEM~1\CyberArk\CR30114_CL12CNT_20190926093307.log
+
+1 row selected.
+
+SQL>
+SQL> --*********************************************************
+SQL> --* update change requests
+SQL> --*********************************************************
+SQL> insert into change_requests
+  2  (change_no, date_changed)
+  3  values('&p_cr_no',sysdate)
+  4  /
+
+1 row created.
+
+SQL>
+SQL> --*********************************************************
+SQL> --* CLOSING SPOOL FILE
+SQL> --*********************************************************
+SQL>
+SQL> spool off
+SQL>
+SQL> --*********************************************************
+SQL> --* RESETTING SQL*PLUS ENVIRONMENT VARIABLES
+SQL> --*********************************************************
+SQL>
+SQL> undefine p_cr_no
+SQL> set echo     off
+No errors.
+
+USER                           DATABASE  DATE_TIME
+------------------------------ --------- -------------------
+SPOOL_FILE_NAME
+-------------------------------------------------------
+SYS                            CL12CNT   26/09/2019 09:33:08
+G:\SYSTEM~1\CyberArk\CR30114_CL12CNT_20190926093307.log
+
+
+1 row selected.
+
+Enter value for p_cr_no: CR30114
+
+CHANGE_N DATE_CHAN
+-------- ---------
+CR30114  19-SEP-19
+CR30114  25-SEP-19
+CR30114  25-SEP-19
+CR30114  26-SEP-19
+
+4 rows selected.
+
+Enter value for p_cr_no: CR30114
+
+1 row created.
+
+
+Commit complete.
+
+
+Commit complete.
+
+Enter value for p_cr_no: CR30114
+
+CHANGE_N DATE_CHAN
+-------- ---------
+CR30114  19-SEP-19
+CR30114  25-SEP-19
+CR30114  25-SEP-19
+CR30114  26-SEP-19
+CR30114  26-SEP-19
+
+5 rows selected.
+
+not spooling currently
+SQL> SET LINESIZE 132 PAGESIZE 30
+SQL>
+COLUMN owner       FORMAT A30
+COLUMN object_name FORMAT A30
+
+SHOW USER
+SQL> SQL> SQL> SQL> USER is "SYS"
+SQL>
+  SELECT owner,
+         object_name,
+         object_type
+    FROM dba_objects
+   WHERE status = 'INVALID'
+ORDER BY object_name, object_type, owner;
+
+CLEAR COLUMNS
+SQL>   2    3    4    5    6
+OWNER                          OBJECT_NAME                    OBJECT_TYPE
+------------------------------ ------------------------------ -----------------------
+CLASS                          CIRPK048                       PACKAGE BODY
+CLASS                          CIRPK103                       PACKAGE BODY
+SYS                            CWM2_OLAP_INSTALLER            PACKAGE BODY
+XXPAY                          PAYPK004                       PACKAGE BODY
+ORACLE                         SDBA_SPACE                     PACKAGE BODY
+ORACLE                         SDBA_SPACE_ESTIMATE            FUNCTION
+
+6 rows selected.
+
+SQL> SQL> columns cleared
+SQL> columns cleared
+breaks cleared
+computes cleared
+Disconnected from Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+d2avdbcste12(oracle)(CL12CNT)>
+
+Script command is complete on Thu 26 Sep 09:35:01 2019.

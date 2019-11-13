@@ -1,0 +1,174 @@
+28498.60
+23246.56
+
+
+
+5252.04
+
+1189.95
+1190.15
+
+2380.10
+
+
+
+Jim Campbell to apply the following:
+
+Implementation Instructions
+Dependencies	-  Yes
+Please Specify	-  Passwords for all databases except Live will be stored in DBA password spreadsheets. 
+Password for live will be on-boarded to CyberArk, advice will be required from the Security team for the appropriate CyberArk safe to add this to.
+
+Connect to the database using SQL*Plus with / as sysdba and execute the following 
+(having replace {DB NAME} with the appropriate database name and {PASSWORD} with a suitable password:
+
+Prior to tablespace creation, ensure that there is sufficient disk space for tablespace creation.
+
+Tablespaces to be created:
+create tablespace xxutldata datafile '/CL12CDEV_DATA/CL12CDEV/xxutldata01.dbf' size 200m;
+create tablespace xxutlindex datafile '/CL12CDEV_DATA/CL12CDEV/xxutlindex01.dbf' size 200m;
+
+Create user:
+create user xxutl identified by B0nx513s
+default tablespace xxutldata
+temporary tablespace temp
+quota unlimited on xxutldata
+quota unlimited on xxutlindex;
+
+Privileges to be granted:
+grant create session to xxutl;
+grant create index to xxutl;
+grant create sequence to xxutl;
+grant create synonym to xxutl;
+grant create table to xxutl;
+grant create view to xxutl;
+grant resource to xxutl;
+grant select on v_$database to xxutl;
+grant execute on dbms_aq to xxutl;
+grant execute on dbms_lob to xxutl;  
+
+
+Post implementation testing
+Jim will hand over to the development team to commence testing and advise if any issues.
+Checks will be carried out on each platform.
+
+
+
+
+Add
+S117915
+kankaaan
+
+
+
+
+Add and Modify
+S118365
+parkis
+grant ops_adm and ops_sup
+
+
+
+Remove
+S118443
+cobetj
+S118504
+hamiltgr
+S118510
+coughljo
+
+===================================================================================
+
+create table customer_event_reasons
+(
+id number(3),
+update_reason varchar2(50)
+) tablespace CLASSDATA;
+
+alter table customer_event_reasons 
+add constraint cuer_pk primary key (id) using index tablespace CLASSINDEX;
+
+===================================================================================
+
+create table customer_events
+(
+csr_id number(11),
+cur_id number(3),
+created_date_time date,
+created_by varchar2(30)
+) tablespace CLASSDATA;
+
+alter table customer_events 
+add constraint 
+cuer_fk foreign key (cur_id) 
+references customer_event_reasons (id);
+
+===================================================================================
+
+
+
+
+Remove
+S118800
+mountaru - dar
+
+
+S119174
+gilmoubr
+wilsonco
+brebnegr
+murdocst
+knightch
+
+
+Modify
+S119424
+boydli
+ogunkugr
+
+CMP_ADM, OPS_SUP
+
+
+S119603
+rennika
+
+ops-adm, ops-sup, icr-tlr
+
+
+
+XXUTL Addons
+
+SQL> grant execute on dbms_sql to xxutl;
+
+Grant succeeded.
+
+SQL> grant execute on dbms_debug_jdwp to xxutl;
+
+Grant succeeded.
+
+SQL> grant debug connect session to XXUTL;
+
+Grant succeeded.
+
+SQL> BEGIN
+ DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE
+ (
+ host => '10.6.0.16',
+ lower_port => null,
+ upper_port => null,
+ ace => xs$ace_type(privilege_list => xs$name_list('jdwp'),
+ principal_name => 'XXUTL',
+ principal_type => xs_acl.ptype_db)
+ );
+END;
+/  2    3    4    5    6    7    8    9   10   11   12
+
+PL/SQL procedure successfully completed.
+
+SQL> grant debug any procedure to XXUTL;
+
+
+
+
+
+
