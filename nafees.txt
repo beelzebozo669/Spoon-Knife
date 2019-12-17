@@ -4,11 +4,29 @@ jcc95962@gmail.com
 
 https://pisangsusu.com/en/
 
+DBACLA20E.163
+DBACLA20E.166
+XXUTL_JSON_UTIL_1_SYN
+CIRPK175
+
+
 T1l3Fi5#
 
 Spurdog
 SpUr609#
 SpUr609#vccc9596
+
+
+Tusk
+Tu5K#q03
+Tu5K#q039596vccc
+
+d1avdbcspp18
+P1Lc#4rD
+
+S41LfI5#3s
+S41LfI5#3svccc9596
+
 
 Mon 04/11 10:00 - 18:30 - 8.5 hrs
 Tue 05/11 08:30 - 16:30 - 8 hrs
@@ -35,6 +53,14 @@ d2avdbcste16.slc.devuat		-	swLMeCra6
 d1avdbcspp15.slc.internal	-	DocHo5haj
 d1avdbcspp16.slc.internal	-  T1l3Fi5# -	v3SpIY3xe         Ciprlc9id3e
 d1avdbcspp20.slc.internal	-	XlHi6e1lw
+
+
+
+
+
+
+
+
 
 
 
@@ -9963,7 +9989,33 @@ https://www.verywellfit.com/how-do-i-determine-the-nutritional-value-of-foods-25
 
 
 
+Strategy Intro
+breakout
+trend following
+pullback
 
+Naked Divergence - become fluent chart reader
+
+Divergence
+RSI - The indicator indicates that the price action is already slowing even though the charts don't show it at first glance yet
+
+The 20 Tunnel
+We can apply 2 20-period moving averages (high and low) to our charts to create a tunnel.
+The allows us to ride  the trade sfor a long period of time
+Pro: Create a more objective trade management approach
+
+As long as the price is outside the tunnel, the trade is valid
+
+Two exit options:
+1:	Conservative[ When price enters the tunnel
+2:	Aggresive: When the price crosses the tunnel completely
+
+How the price trades into levels
+1	Look for a trend
+2	Wait until the trend slows down
+3	Find a local support/resistance with at least 2 confirmation points
+4	Wait for the trigger of the breakout
+5	A new trend will emerge
 
 
 

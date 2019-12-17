@@ -1,0 +1,662 @@
+SET LINESIZE 200
+
+COLUMN host      FORMAT A20
+COLUMN acl       FORMAT A60
+COLUMN acl_owner FORMAT A20
+
+  SELECT *
+    FROM dba_network_acls;
+
+
+HOST                           LOWER_PORT UPPER_PORT ACL                                                          ACLID            ACL_OWNER
+------------------------------ ---------- ---------- ------------------------------------------------------------ ---------------- ----------
+localhost                                            /sys/acls/oracle-sysman-ocm-Resolve-Access.xml               0000000080002710 SYS
+*                                       1       9999 /sys/acls/generic_open_list.xml                              0000000080002738 SYS
+10.1.20.97                                           NETWORK_ACL_853DD0D6470A00DCE0530A3842182B5B                 00000000800027EC SYS
+10.6.0.186                                           NETWORK_ACL_8B827BA30EBF01DCE0530A3842182551                 0000000080002800 SYS
+10.1.20.64                                           NETWORK_ACL_76DB4765C30E000CE0530A384218AF88                 0000000080002763 SYS
+10.6.0.16                                            NETWORK_ACL_7DC2643F8DB50076E0530A38421894D5                 00000000800027D8 SYS
+*                                                    NETWORK_ACL_4AEFE4C213800196E0530A36803C982C                 0000000080002712 SYS
+
+
+COLUMN acl        FORMAT A60
+COLUMN aclid      FORMAT A20
+COLUMN principal  FORMAT A20
+COLUMN privilege  FORMAT A20
+COLUMN start_date FORMAT A20
+COLUMN end_date   FORMAT A20
+COLUMN acl_owner  FORMAT A20
+
+  SELECT *
+    FROM dba_network_acl_privileges
+   WHERE principal = 'XXREPAY';
+
+
+begin
+DBMS_NETWORK_ACL_ADMIN.ADD_PRIVILEGE(acl => '/sys/acls/generic_open_list.xml',
+principal => 'XXREPAY',
+is_grant => true,
+privilege => 'connect');
+end;
+/
+
+commit;
+
+In order to use UTL_TCP, UTL_HTTP, UTL_SMTP, and UTL_MAIL the user will need the connect privilege
+
+begin
+DBMS_NETWORK_ACL_ADMIN.ADD_PRIVILEGE(acl => 'http_permissions.xml',
+principal => 'XXREPAY',
+is_grant => true,
+privilege => 'connect');
+end;
+/
+
+commit;
+
+
+If you need to resolve a host name from a host IP you will need the resolve grant as well.
+
+begin
+DBMS_NETWORK_ACL_ADMIN.ADD_PRIVILEGE(acl => 'http_permissions.xml',
+principal => 'SCOTT',
+is_grant => true,
+privilege => 'resolve');
+end;
+/
+
+commit;
+
+3) The final step is to assign the acl to a specific target
+
+BEGIN
+
+dbms_network_acl_admin.assign_acl (
+
+acl => 'http_permissions.xml',
+
+host => 'NETWORK ADDRESS', /*can be computer name or IP , wildcards are accepted as well for example - '*.us.oracle.com'*/
+
+lower_port => 80,
+
+upper_port => 80
+
+);
+
+END;
+/
+
+===========================================================================================================================================================================
+===========================================================================================================================================================================
+===========================================================================================================================================================================
+-- -------------------------------------------------
+-- /sys/acls/generic_open_list.xml
+-- -------------------------------------------------
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.drop_acl (
+    acl          => '/sys/acls/generic_open_list.xml');
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.create_acl (
+    acl          => '/sys/acls/generic_open_list.xml',
+    description  => '/sys/acls/generic_open_list.xml',
+    principal    => 'XXFV',
+    is_grant     => true,
+    privilege    => 'connect',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.assign_acl (
+    acl         => '/sys/acls/generic_open_list.xml',
+    host        => '*',
+    lower_port  => 1,
+    upper_port  => 9999);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.add_privilege (
+    acl       => '/sys/acls/generic_open_list.xml',
+    principal => 'XXPAY',
+    is_grant  => true,
+    privilege => 'connect',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.add_privilege (
+    acl       => '/sys/acls/generic_open_list.xml',
+    principal => 'CLASS',
+    is_grant  => true,
+    privilege => 'connect',
+    start_date   => TO_TIMESTAMP_TZ('12-MAY-2017 13:09:15.350252000 +00:00','DD-MON-YYYY HH24:MI:SS.FF TZH:TZM'),
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.add_privilege (
+    acl       => '/sys/acls/generic_open_list.xml',
+    principal => 'XXPREPAY',
+    is_grant  => true,
+    privilege => 'connect',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.add_privilege (
+    acl       => '/sys/acls/generic_open_list.xml',
+    principal => 'XXCLASSORDS',
+    is_grant  => true,
+    privilege => 'connect',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+-- -------------------------------------------------
+-- /sys/acls/oracle-sysman-ocm-Resolve-Access.xml
+-- -------------------------------------------------
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.drop_acl (
+    acl          => '/sys/acls/oracle-sysman-ocm-Resolve-Access.xml');
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.create_acl (
+    acl          => '/sys/acls/oracle-sysman-ocm-Resolve-Access.xml',
+    description  => '/sys/acls/oracle-sysman-ocm-Resolve-Access.xml',
+    principal    => 'ORACLE_OCM',
+    is_grant     => true,
+    privilege    => 'resolve',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.assign_acl (
+    acl         => '/sys/acls/oracle-sysman-ocm-Resolve-Access.xml',
+    host        => 'localhost',
+    lower_port  => NULL,
+    upper_port  => NULL);
+  COMMIT;
+END;
+/
+
+-- -------------------------------------------------
+-- NETWORK_ACL_4AEFE4C213800196E0530A36803C982C
+-- -------------------------------------------------
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.drop_acl (
+    acl          => 'NETWORK_ACL_4AEFE4C213800196E0530A36803C982C');
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.create_acl (
+    acl          => 'NETWORK_ACL_4AEFE4C213800196E0530A36803C982C',
+    description  => 'NETWORK_ACL_4AEFE4C213800196E0530A36803C982C',
+    principal    => 'GSMADMIN_INTERNAL',
+    is_grant     => true,
+    privilege    => 'resolve',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.assign_acl (
+    acl         => 'NETWORK_ACL_4AEFE4C213800196E0530A36803C982C',
+    host        => '*',
+    lower_port  => NULL,
+    upper_port  => NULL);
+  COMMIT;
+END;
+/
+
+-- -------------------------------------------------
+-- NETWORK_ACL_76DB4765C30E000CE0530A384218AF88
+-- -------------------------------------------------
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.drop_acl (
+    acl          => 'NETWORK_ACL_76DB4765C30E000CE0530A384218AF88');
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.create_acl (
+    acl          => 'NETWORK_ACL_76DB4765C30E000CE0530A384218AF88',
+    description  => 'NETWORK_ACL_76DB4765C30E000CE0530A384218AF88',
+    principal    => 'CLASS',
+    is_grant     => true,
+    privilege    => 'JDWP',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.assign_acl (
+    acl         => 'NETWORK_ACL_76DB4765C30E000CE0530A384218AF88',
+    host        => '10.1.20.64',
+    lower_port  => NULL,
+    upper_port  => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.add_privilege (
+    acl       => 'NETWORK_ACL_76DB4765C30E000CE0530A384218AF88',
+    principal => 'XXPREPAY',
+    is_grant  => true,
+    privilege => 'JDWP',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.add_privilege (
+    acl       => 'NETWORK_ACL_76DB4765C30E000CE0530A384218AF88',
+    principal => 'XXPAY',
+    is_grant  => true,
+    privilege => 'JDWP',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.add_privilege (
+    acl       => 'NETWORK_ACL_76DB4765C30E000CE0530A384218AF88',
+    principal => 'XXCLASSORDS',
+    is_grant  => true,
+    privilege => 'JDWP',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+-- -------------------------------------------------
+-- NETWORK_ACL_7DC2643F8DB50076E0530A38421894D5
+-- -------------------------------------------------
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.drop_acl (
+    acl          => 'NETWORK_ACL_7DC2643F8DB50076E0530A38421894D5');
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.create_acl (
+    acl          => 'NETWORK_ACL_7DC2643F8DB50076E0530A38421894D5',
+    description  => 'NETWORK_ACL_7DC2643F8DB50076E0530A38421894D5',
+    principal    => 'XXPREPAY',
+    is_grant     => true,
+    privilege    => 'JDWP',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.assign_acl (
+    acl         => 'NETWORK_ACL_7DC2643F8DB50076E0530A38421894D5',
+    host        => '10.6.0.16',
+    lower_port  => NULL,
+    upper_port  => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.add_privilege (
+    acl       => 'NETWORK_ACL_7DC2643F8DB50076E0530A38421894D5',
+    principal => 'XXUTL',
+    is_grant  => true,
+    privilege => 'JDWP',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.add_privilege (
+    acl       => 'NETWORK_ACL_7DC2643F8DB50076E0530A38421894D5',
+    principal => 'CLASS',
+    is_grant  => true,
+    privilege => 'JDWP',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.add_privilege (
+    acl       => 'NETWORK_ACL_7DC2643F8DB50076E0530A38421894D5',
+    principal => 'XXPAY',
+    is_grant  => true,
+    privilege => 'JDWP',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.add_privilege (
+    acl       => 'NETWORK_ACL_7DC2643F8DB50076E0530A38421894D5',
+    principal => 'XXCLASSORDS',
+    is_grant  => true,
+    privilege => 'JDWP',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+-- -------------------------------------------------
+-- NETWORK_ACL_853DD0D6470A00DCE0530A3842182B5B
+-- -------------------------------------------------
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.drop_acl (
+    acl          => 'NETWORK_ACL_853DD0D6470A00DCE0530A3842182B5B');
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.create_acl (
+    acl          => 'NETWORK_ACL_853DD0D6470A00DCE0530A3842182B5B',
+    description  => 'NETWORK_ACL_853DD0D6470A00DCE0530A3842182B5B',
+    principal    => 'XXPREPAY',
+    is_grant     => true,
+    privilege    => 'JDWP',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.assign_acl (
+    acl         => 'NETWORK_ACL_853DD0D6470A00DCE0530A3842182B5B',
+    host        => '10.1.20.97',
+    lower_port  => NULL,
+    upper_port  => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.add_privilege (
+    acl       => 'NETWORK_ACL_853DD0D6470A00DCE0530A3842182B5B',
+    principal => 'XXREPAY',
+    is_grant  => true,
+    privilege => 'JDWP',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.add_privilege (
+    acl       => 'NETWORK_ACL_853DD0D6470A00DCE0530A3842182B5B',
+    principal => 'CLASS',
+    is_grant  => true,
+    privilege => 'JDWP',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+-- -------------------------------------------------
+-- NETWORK_ACL_8B827BA30EBF01DCE0530A3842182551
+-- -------------------------------------------------
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.drop_acl (
+    acl          => 'NETWORK_ACL_8B827BA30EBF01DCE0530A3842182551');
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.create_acl (
+    acl          => 'NETWORK_ACL_8B827BA30EBF01DCE0530A3842182551',
+    description  => 'NETWORK_ACL_8B827BA30EBF01DCE0530A3842182551',
+    principal    => 'XXPAY',
+    is_grant     => true,
+    privilege    => 'JDWP',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.assign_acl (
+    acl         => 'NETWORK_ACL_8B827BA30EBF01DCE0530A3842182551',
+    host        => '10.6.0.186',
+    lower_port  => NULL,
+    upper_port  => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.add_privilege (
+    acl       => 'NETWORK_ACL_8B827BA30EBF01DCE0530A3842182551',
+    principal => 'CLASS',
+    is_grant  => true,
+    privilege => 'JDWP',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.add_privilege (
+    acl       => 'NETWORK_ACL_8B827BA30EBF01DCE0530A3842182551',
+    principal => 'XXCLASSORDS',
+    is_grant  => true,
+    privilege => 'JDWP',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.add_privilege (
+    acl       => 'NETWORK_ACL_8B827BA30EBF01DCE0530A3842182551',
+    principal => 'XXPREPAY',
+    is_grant  => true,
+    privilege => 'JDWP',
+    start_date   => NULL,
+    end_date     => NULL);
+  COMMIT;
+END;
+/
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+08/05/2018	Craig Thompson		S43618	- can be closed, no longer employee
+04/12/2018	Bradley Mason		S45543
+12/12/2018	Craig Thompson		S47287	- can be closed, no longer employee
+03/04/2019	Frank Lyons		44995
+10/04/2019	Craig Thompson		S70429	- can be closed, no longer employee
+15/05/2019	Carl Parker		S78170  - can be closed
+17/05/2019	Stephen O'Hare		S78920  - can be closed
+29/07/2019	Ross Brown		61417	- can be closed, no longer employee
+28/07/2019	Samantha Willock	S102953 - can be closed
+30/08/2019	Samantha Willock	S103632 - can be closed
+10/09/2019	Support Desk		67960   - can be closed
+18/09/2019	Neil McGonigle		S109624
+19/09/2019	Bhavya Shah		S110279 - can be closed
+26/09/2019	Graeme Craig		S112109 - can be closed
+26/09/2019	Rohit Jha		S112144 - can be closed
+
+
+
+
+08/05/2018	Craig Thompson		S43618
+12/12/2018	Craig Thompson		S47287
+10/04/2019	Craig Thompson		S70429
+
+04/12/2018	Bradley Mason		S45543
+
+03/04/2019	Frank Lyons		44995
+
+29/07/2019	Ross Brown		61417
+
+10/09/2019	Support Desk		67960
+
+18/09/2019	Neil McGonigle		S109624
+
+19/09/2019	Bhavya Shah		S110279
+
+26/09/2019	Graeme Craig		S112109
+
+26/09/2019	Rohit Jha		S112144
+
+
+
+
+S43618
+S45543
+S47287
+44995
+S70429
+S78170
+S78920
+61417
+S102953
+S103632
+67960
+S109624
+S110279
+S112109
+S112144
+
+
+
+
+08/05/2018
+04/12/2018
+12/12/2018
+03/04/2019
+10/04/2019
+15/05/2019
+17/05/2019
+29/07/2019
+28/08/2019
+30/08/2019
+10/09/2019
+18/09/2019
+19/09/2019
+26/09/2019
+26/09/2019
+
+
+Craig Thompson
+Bradley Mason
+Craig Thompson
+Frank Lyons
+Craig Thompson
+Carl Parker
+Stephen O'Hare
+Ross Brown
+Samantha Willock
+Samantha Willock
+Support Desk
+Neil McGonigle
+Bhavya Shah
+Graeme Craig
+Rohit Jha
+
+
+
+
+
+
+
+
+
+
+
+
+
+7000
+6500
+1190.15 Sep
+5309.85
+
+5809.85
+
+7000
+6500
+1190.15 Oct
+5309.85
+
+5809.85
+
+
+10619.7
+11619.7
+
+19th September
+1250.00
+Transfer from Buisness Current Account to Business Savings Account
+Transfer To JVC Solutions Limited
+
+1750
+3500
+
+
+
+42317.31
+11619.7
+
+30697.61
+27197.61
+
+
+
+152.37

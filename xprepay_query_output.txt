@@ -1,0 +1,126 @@
+Script command is started on Thu 14 Nov 09:43:35 2019.
+d1avdbcste17(oracle)(CL12CBS)> sqlplus xxprepay
+
+SQL*Plus: Release 12.1.0.2.0 Production on Thu Nov 14 09:43:40 2019
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+Enter password:
+Last Successful login time: Thu Nov 14 2019 09:42:55 +00:00
+
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+
+SQL> @xxprepay
+
+METHOD     BASE_PATH                                          PATTERN
+---------- -------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------
+POST       /v1/internal/                                      confirmations/
+POST       /v1/internal/                                      entitlements/
+GET        /v1/internal/                                      entitlements/
+PUT        /v1/internal/                                      entitlements/
+GET        /v1/internal/                                      entitlements/?csr_id={csr_id}
+PUT        /v1/internal/                                      paymentSchedules
+POST       /v1/internal/                                      paymentSchedules
+GET        /v1/internal/                                      paymentSchedules/
+GET        /v1/internal/                                      paymentSchedules/reports/manual
+GET        /v1/internal/                                      paymentSchedules/reports/manualCoC
+GET        /v1/internal/                                      payments/?csr_id={csr_id}
+POST       /v1/internal/                                      paymentsReleaseRequests
+POST       /v1/internal/                                      reauthorisePayments/
+POST       /v1/private/                                       entitlements
+GET        /v1/public/                                        paymentSchedules/?csr_id={csr_id}
+GET        /v1/public/                                        paymentSchedules/?csr_id={csr_id}&academic_year={academic_year}
+GET        /v1/public/                                        paymentSchedules/?csr_id={csr_id}&source_application_id={source_application_id}
+GET        /v1/public/                                        paymentSchedules/?source_application_id={source_application_id}
+GET        /v1/public/paySchedule/                            pgdoctoral/?csr_id={csr_id}
+GET        /v1/public/paySchedule/                            pgdoctoral/?csr_id={csr_id}&source_application_id={source_application_id}
+GET        /v1/public/paySchedule/                            pgdoctoral/?source_application_id={source_application_id}
+PUT        /v1/test/                                          paymentInstalments
+
+22 rows selected.
+
+
+        ID NAME                                               DESCRIPTION
+---------- -------------------------------------------------- ----------------------------------------------------------------------------------------------------
+    171586 BCF                                                A client for calling CLASS
+    171596 Customer_Portal                                    A client for calling CLASS
+    312768 LA_Portal                                          A client for calling CLASS
+    176832 PREPAY                                             A client for calling CLASS
+    178072 XXCLASSORDS                                        A client for calling CLASS
+    177106 XXPAY                                              A client for calling CLASS
+
+6 rows selected.
+
+
+PRIVILEGE_ID NAME                                               PATTERN
+------------ -------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------
+       10003 oracle.soda.privilege.developer                    /soda/*
+       10048 paySchedule_public                                 /v1/public/paySchedule/*
+       10022 entitlements_private                               /v1/private/entitlements/*
+      176862 v1_private                                         /v1/private/*
+      178073 v1_internal                                        /v1/internal/*
+       10027 paySchedule_private                                /v1/private/paySchedule/*
+      176950 paymentSchedules                                   /v1/public/paymentSchedules/*
+
+7 rows selected.
+
+
+CLIENT_PRIV_CLIENT_ID    PRIV_ID NAME                                               LABEL                                              DESCRIPTION
+--------------------- ---------- -------------------------------------------------- -------------------------------------------------- ----------------------------------------------------------------------------------------------------
+               171586      10022 entitlements_private                               entitlements                                       Allow access to the entitlements data.
+               171596      10048 paySchedule_public                                 paySchedule_public                                 Allow access to the view payment schedules.
+
+
+ CLIENT_ID CLIENT_NAME                                           ROLE_ID ROLE_NAME
+---------- -------------------------------------------------- ---------- --------------------------------------------------
+    171586 BCF                                                     10021 entitlements
+    171586 BCF                                                     10026 paySchedule
+    171596 Customer_Portal                                         10047 paySchedule_public
+    171586 BCF                                                     10047 paySchedule_public
+    312768 LA_Portal                                              176861 v1_private
+    176832 PREPAY                                                 176833 v1_internal
+    171586 BCF                                                    176861 v1_private
+    178072 XXCLASSORDS                                            176833 v1_internal
+    171596 Customer_Portal                                        176949 paymentSchedules
+    171586 BCF                                                    176949 paymentSchedules
+    177106 XXPAY                                                  176833 v1_internal
+
+11 rows selected.
+
+
+        ID LABEL                                              NAME                                               DESCRIPTION
+---------- -------------------------------------------------- -------------------------------------------------- ----------------------------------------------------------------------------------------------------
+         1 RESTful Service Editing                            oracle.dbtools.sqldev                              Provides access to edit RESTful Service definitions
+     10022 entitlements                                       entitlements_private                               Allow access to the entitlements data.
+     10003                                                    oracle.soda.privilege.developer
+     10027 paySchedule                                        paySchedule_private                                Allow access to the paySchedule data.
+     10048 paySchedule_public                                 paySchedule_public                                 Allow access to the view payment schedules.
+    176950 paymentSchedules                                   paymentSchedules                                   Allow access to the GetPaymentSchedules.
+    178073 v1_internal                                        v1_internal                                        Allow access to internal services.
+    176862 v1_private                                         v1_private                                         Allow access to the entitlements services.
+
+8 rows selected.
+
+
+PRIVILEGE_ID PRIVILEGE_NAME                                        ROLE_ID ROLE_NAME
+------------ -------------------------------------------------- ---------- --------------------------------------------------
+           1 oracle.dbtools.sqldev                                       4 Schema Administrator
+           1 oracle.dbtools.sqldev                                       2 SQL Developer
+       10022 entitlements_private                                    10021 entitlements
+       10003 oracle.soda.privilege.developer                             6 SODA Developer
+       10027 paySchedule_private                                     10026 paySchedule
+       10048 paySchedule_public                                      10047 paySchedule_public
+      176950 paymentSchedules                                       176949 paymentSchedules
+      178073 v1_internal                                            176833 v1_internal
+      176862 v1_private                                             176861 v1_private
+
+9 rows selected.
+
+SQL>
+SQL> Disconnected from Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+d1avdbcste17(oracle)(CL12CBS)>
+
+Script command is complete on Thu 14 Nov 09:44:14 2019.
